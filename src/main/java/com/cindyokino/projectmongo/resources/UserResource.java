@@ -1,14 +1,17 @@
 package com.cindyokino.projectmongo.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cindyokino.projectmongo.domain.User;
 import com.cindyokino.projectmongo.dto.UserDTO;
@@ -34,5 +37,11 @@ public class UserResource {
 		return ResponseEntity.ok().body(new UserDTO(obj)); // instanciar ResponseEntity<T>
 	}
 	
-	
+	@RequestMapping(method=RequestMethod.POST) // ou usar so @PostMapping
+	public ResponseEntity<Void> insert(@RequestBody UserDTO objDto) {
+		User obj = service.fromDTO(objDto);	
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri(); // pega o endereco do novo objeto inserido 
+		return ResponseEntity.created(uri).build(); // retorna uma resposta vazia com o codigo 201 e com o cabecalho contendo a localizacao do novo recurso criado
+	}	
 }
