@@ -17,7 +17,7 @@ public class User implements Serializable{
 	private String name;
 	private String email;
 	
-	@DBRef(lazy=true) // LAZY=os posts so vao ser carregados se eu acessa-los, se nao ao carregar um usuario so vou receber os dados basicos do usuario 
+	@DBRef(lazy=true) // DBREF=indica que é uma referencia / LAZY=os posts so vao ser carregados se eu acessa-los, se nao ao carregar um usuario so vou receber os dados basicos do usuario 
 	private List<Post> posts = new ArrayList<>();
 	
 	public User() {		
