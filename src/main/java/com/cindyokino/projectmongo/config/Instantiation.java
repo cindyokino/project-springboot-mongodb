@@ -1,4 +1,4 @@
-//Arquivo para popular a base de dados
+//Arquivo para popular a base de dados (carga inicial da base de dados)
 
 package com.cindyokino.projectmongo.config;
 
@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.cindyokino.projectmongo.domain.Post;
 import com.cindyokino.projectmongo.domain.User;
+import com.cindyokino.projectmongo.dto.AuthorDTO;
 import com.cindyokino.projectmongo.repository.PostRepository;
 import com.cindyokino.projectmongo.repository.UserRepository;
 
@@ -37,11 +38,12 @@ public class Instantiation implements CommandLineRunner{
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 		
-		Post post1 = new Post(null, sdf.parse("21/03/2018"), "Travel", "I'm going to Québec, see you!", maria);
-		Post post2 = new Post(null, sdf.parse("23/03/2018"), "Good morning", "I'm so happy today!", maria);
-	
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));	
-		postRepository.saveAll(Arrays.asList(post1, post2));	
+			
+		Post post1 = new Post(null, sdf.parse("21/03/2018"), "Travel", "I'm going to Québec, see you!", new AuthorDTO(maria));
+		Post post2 = new Post(null, sdf.parse("23/03/2018"), "Good morning", "I'm so happy today!", new AuthorDTO(maria));
+		
+		postRepository.saveAll(Arrays.asList(post1, post2));
 	}
 
 }
